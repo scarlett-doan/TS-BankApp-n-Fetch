@@ -1,9 +1,11 @@
 import { List } from "./types/ecommerce";
+import { User } from "./types/user";
+import { Product } from "./types/product";
 
 /* Fix all the possible bugs you might find in the codes below */
 
-const users = new List()
-const products = new List()
+const users = new List<User>;
+const products = new List<Product>;
 
 users.fetchAll("https://api.escuelajs.co/api/v1/users")
 products.fetchAll("https://api.escuelajs.co/api/v1/products")
@@ -13,8 +15,13 @@ console.log(users.sortList("desc")) //Expect to see users array in new order of 
 /** find user by email.
  * Take a parameter of type string.
  * Return a found user or null*/
-const findUserByEmail = (email) => {
-    users.find(user => user.email === email)
+const findUserByEmail = (email: string): User | null => {
+    let result = users.find(user => user.email === email)
+    if (result == undefined){
+        return null;
+    } else {
+        return result;
+    }
 }
 const foundUser = findUserByEmail("john@mail.com")
 console.log(foundUser) //expect to see user with email "john@mail.com" in the console
@@ -23,8 +30,8 @@ console.log(foundUser) //expect to see user with email "john@mail.com" in the co
  * Take a parameter of type string.
  * Return an array
  */
-const findProductsByText = (search) => {
-    products.filter(products => products.title === search)
+const findProductsByText = (search: string): Product[] => {
+    return products.filter(products => products.title === search)
 }
 const foundProducts = findProductsByText("shirt")
 console.log(foundProducts) //expect to see an array of all found products
